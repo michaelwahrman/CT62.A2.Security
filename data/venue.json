@@ -1,0 +1,98 @@
+{
+  "_note": "CT62.A1 sample venue. FICTIONAL layout, not any real building. Units: metres. x = east, z = south (so north is -z). Camera yaw: 0 = looking north, 90 = east, 180 = south, 270 = west. Pitch: degrees below horizontal.",
+  "name": "Sample Synagogue (fictional)",
+  "schedule": {
+    "_note": "Open hours used by the 'wrong time' rule. day: 0=Sun .. 6=Sat. Times are 24h local.",
+    "open": [
+      { "day": 5, "from": "17:30", "to": "21:00", "label": "Friday evening service" },
+      { "day": 6, "from": "08:30", "to": "13:30", "label": "Shabbat morning service" },
+      { "day": 6, "from": "17:00", "to": "19:30", "label": "Shabbat afternoon" },
+      { "day": 0, "from": "09:00", "to": "12:30", "label": "Sunday school" },
+      { "day": 1, "from": "07:00", "to": "08:00", "label": "Weekday minyan" },
+      { "day": 3, "from": "19:00", "to": "21:00", "label": "Wednesday study group" }
+    ]
+  },
+  "recognition": {
+    "_note": "UNVERIFIED planning assumptions for the simulation (see README 'Assumptions'). faceWidthM = real face width; minFacePx/goodFacePx = face width in pixels at which matching starts / is reliable.",
+    "faceWidthM": 0.16,
+    "personHeightM": 1.72,
+    "minFacePx": 24,
+    "goodFacePx": 64,
+    "minBodyPxForObject": 160,
+    "unknownGraceSec": 8
+  },
+  "bounds": { "minX": -42, "maxX": 42, "minZ": -34, "maxZ": 26 },
+  "streets": [
+    { "name": "Main Street", "rect": [-42, -30, 42, -22], "kind": "road" },
+    { "name": "Main St sidewalk (north)", "rect": [-42, -33, 42, -30], "kind": "sidewalk" },
+    { "name": "Main St sidewalk (south)", "rect": [-42, -22, 42, -19.2], "kind": "sidewalk" },
+    { "name": "Oak Avenue", "rect": [21, -22, 29, 26], "kind": "road" },
+    { "name": "Oak Ave sidewalk (west)", "rect": [18.2, -19.2, 21, 26], "kind": "sidewalk" }
+  ],
+  "zones": [
+    { "id": "office", "name": "Office (staff only)", "level": 2, "restricted": "staff", "poly": [[5, -8], [12, -8], [12, -3], [5, -3]] },
+    { "id": "classroom", "name": "Classroom / coat room", "level": 2, "poly": [[-12, -8], [-5, -8], [-5, -3], [-12, -3]] },
+    { "id": "sanctuary", "name": "Sanctuary", "level": 2, "poly": [[-12, -3], [12, -3], [12, 14], [-12, 14]] },
+    { "id": "lobby", "name": "Lobby / vestibule", "level": 1, "poly": [[-5, -8], [5, -8], [5, -3], [-5, -3]] },
+    { "id": "forecourt", "name": "Forecourt (gate to doors)", "level": 1, "poly": [[-8, -19], [8, -19], [8, -8], [-8, -8]] },
+    { "id": "grounds", "name": "Grounds inside fence", "level": 0, "poly": [[-18, -19], [18, -19], [18, 20], [-18, 20]] },
+    { "id": "street", "name": "Streets & sidewalks", "level": 0, "poly": [[-42, -34], [42, -34], [42, 26], [-42, 26]] }
+  ],
+  "walls": [
+    { "a": [-12, -8], "b": [-1.5, -8], "h": 6 },
+    { "a": [1.5, -8], "b": [12, -8], "h": 6 },
+    { "a": [-12, 14], "b": [-1, 14], "h": 6 },
+    { "a": [1, 14], "b": [12, 14], "h": 6 },
+    { "a": [-12, -8], "b": [-12, 14], "h": 6 },
+    { "a": [12, -8], "b": [12, 8], "h": 6 },
+    { "a": [12, 9.5], "b": [12, 14], "h": 6 },
+    { "a": [-12, -3], "b": [-1.5, -3], "h": 3.2 },
+    { "a": [1.5, -3], "b": [12, -3], "h": 3.2 },
+    { "a": [-5, -8], "b": [-5, -6], "h": 3.2 },
+    { "a": [-5, -5], "b": [-5, -3], "h": 3.2 },
+    { "a": [5, -8], "b": [5, -6], "h": 3.2 },
+    { "a": [5, -5], "b": [5, -3], "h": 3.2 }
+  ],
+  "fences": [
+    { "a": [-18, -19], "b": [-2, -19] },
+    { "a": [2, -19], "b": [18, -19] },
+    { "a": [18, -19], "b": [18, 4] },
+    { "a": [18, 6], "b": [18, 20] },
+    { "a": [18, 20], "b": [-18, 20] },
+    { "a": [-18, 20], "b": [-18, -19] }
+  ],
+  "doors": [
+    { "id": "gate", "name": "Front gate", "type": "gate", "a": [-2, -19], "b": [2, -19] },
+    { "id": "main", "name": "Main doors", "type": "entrance", "a": [-1.5, -8], "b": [1.5, -8] },
+    { "id": "inner", "name": "Sanctuary doors", "type": "interior", "a": [-1.5, -3], "b": [1.5, -3] },
+    { "id": "class", "name": "Classroom door", "type": "interior", "a": [-5, -6], "b": [-5, -5] },
+    { "id": "officedoor", "name": "Office door", "type": "interior", "a": [5, -6], "b": [5, -5] },
+    { "id": "eastexit", "name": "East emergency exit", "type": "emergency", "a": [12, 8], "b": [12, 9.5] },
+    { "id": "rear", "name": "Rear emergency exit", "type": "emergency", "a": [-1, 14], "b": [1, 14] },
+    { "id": "sidegate", "name": "Side gate (Oak Ave)", "type": "gate", "a": [18, 4], "b": [18, 6] }
+  ],
+  "waypoints": {
+    "street_w": [-40, -26], "street_e": [40, -26],
+    "far_sidewalk_w": [-40, -31.5], "far_sidewalk_e": [40, -31.5], "across_gate": [0, -31.5], "across_gate_e": [6, -31.5],
+    "sidewalk_w": [-40, -20.6], "sidewalk_e": [40, -20.6], "sidewalk_corner": [19.6, -20.6],
+    "gate_out": [0, -20.6], "gate": [0, -19], "forecourt": [0, -13], "doors_out": [0, -9], "doors_in": [0, -7],
+    "lobby": [0, -5.5], "lobby_w": [-3.5, -5.5], "lobby_e": [3.5, -5.5],
+    "class_door": [-5, -5.5], "classroom": [-8.5, -5.5], "office_door": [5, -5.5], "office": [8.5, -6.5],
+    "inner_door": [0, -3], "aisle": [0, 0], "aisle_mid": [0, 5],
+    "seat_l1": [-6, 3], "seat_l2": [-6, 7], "seat_l3": [-8, 5], "seat_r1": [6, 3], "seat_r2": [6, 7], "seat_r3": [8, 5],
+    "bimah": [0, 10], "east_exit_in": [11, 8.75], "east_exit_out": [13.5, 8.75], "east_lawn": [15, 5], "side_gate": [18, 5], "oak_ave": [19.6, 5],
+    "oak_s": [19.6, 25]
+  },
+  "cameras": [
+    { "id": "C01", "name": "Street west", "pos": [-16, 5, -18.4], "yaw": 81, "pitch": 12, "hfov": 90, "res": [2560, 1440], "range": 35, "fps": 1, "lens": "normal", "zone": "street" },
+    { "id": "C02", "name": "Street east", "pos": [16, 5, -18.4], "yaw": 279, "pitch": 12, "hfov": 90, "res": [2560, 1440], "range": 35, "fps": 1, "lens": "normal", "zone": "street" },
+    { "id": "C03", "name": "Gate (from facade)", "pos": [0, 3.5, -8.5], "yaw": 0, "pitch": 11, "hfov": 60, "res": [2560, 1440], "range": 25, "fps": 2, "lens": "normal", "zone": "forecourt" },
+    { "id": "C04", "name": "Forecourt wide", "pos": [7.5, 4, -8.5], "yaw": 318.6, "pitch": 12, "hfov": 110, "res": [2560, 1440], "range": 22, "fps": 1, "lens": "wide", "zone": "forecourt" },
+    { "id": "C05", "name": "Lobby (facing doors)", "pos": [0, 2.7, -3.3], "yaw": 0, "pitch": 13, "hfov": 90, "res": [2560, 1440], "range": 12, "fps": 2, "lens": "normal", "zone": "lobby" },
+    { "id": "C06", "name": "Lobby corner", "pos": [-4.7, 2.7, -7.7], "yaw": 135, "pitch": 9.5, "hfov": 90, "res": [2560, 1440], "range": 12, "fps": 1, "lens": "normal", "zone": "lobby" },
+    { "id": "C07", "name": "Sanctuary front (ark wall)", "pos": [0, 4, 13.6], "yaw": 0, "pitch": 8.3, "hfov": 100, "res": [2560, 1440], "range": 25, "fps": 1, "lens": "wide", "zone": "sanctuary" },
+    { "id": "C08", "name": "Sanctuary rear corner", "pos": [-11.6, 3.5, -2.6], "yaw": 125.5, "pitch": 5, "hfov": 100, "res": [2560, 1440], "range": 25, "fps": 1, "lens": "wide", "zone": "sanctuary" },
+    { "id": "C09", "name": "Office", "pos": [11.6, 2.7, -3.4], "yaw": 287, "pitch": 9, "hfov": 90, "res": [2560, 1440], "range": 10, "fps": 1, "lens": "normal", "zone": "office" },
+    { "id": "C10", "name": "East exit & side gate", "pos": [17, 4, 12], "yaw": 333.4, "pitch": 19.7, "hfov": 100, "res": [2560, 1440], "range": 18, "fps": 1, "lens": "wide", "zone": "grounds" }
+  ]
+}

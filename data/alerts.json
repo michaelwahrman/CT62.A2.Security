@@ -1,0 +1,21 @@
+{
+  "_note": "Alert levels and the rules that raise them. notify: 'onduty' = all on-duty officers, 'oncall' = all on-call officers, otherwise a contact id from duty.json. A1 only SIMULATES notifications. These are placeholder procedures, not reviewed security advice.",
+  "levels": [
+    { "level": 0, "name": "Log", "color": "#7f8c9a", "notify": [], "actions": ["Record event in log", "No action required"] },
+    { "level": 1, "name": "Notify duty officer", "color": "#e8b931", "notify": ["onduty"], "actions": ["Duty officer views the camera images", "Greeter or officer makes friendly contact and verifies", "Officer clears or escalates in the console"] },
+    { "level": 2, "name": "Call in security", "color": "#f08a24", "notify": ["onduty", "oncall", "K_GUARDCO"], "actions": ["Officer on radio keeps person under observation", "Call contract security / on-call officers to the site", "Hold inner doors closed until cleared", "Prepare to escalate"] },
+    { "level": 3, "name": "Lockdown / shelter in place", "color": "#e5484d", "notify": ["onduty", "oncall", "K_POLICE", "K_NETWORK", "K_RABBI", "K_ED"], "actions": ["Call emergency services", "Lock exterior and sanctuary doors", "Announce shelter-in-place code phrase", "Move people away from doors and windows", "Officer keeps camera watch and reports to police"] },
+    { "level": 4, "name": "Evacuate", "color": "#b01e8f", "notify": ["onduty", "oncall", "K_POLICE", "K_NETWORK", "K_RABBI", "K_ED", "K_PRES"], "actions": ["Call emergency services", "Announce evacuation", "Use exits away from the threat (east / rear)", "Assemble at the rally point", "Account for everyone"] }
+  ],
+  "rules": [
+    { "id": "threat_match", "name": "Face matches threat list", "level": 3, "enabled": true },
+    { "id": "not_trusted_match", "name": "Face matches 'no longer trusted' list", "level": 2, "enabled": true },
+    { "id": "unknown_zone1", "name": "Unrecognized person in entry zone", "level": 1, "enabled": true },
+    { "id": "unknown_zone2", "name": "Unrecognized, uncleared person inside", "level": 2, "enabled": true },
+    { "id": "loiter_zone0", "name": "Unrecognized person loitering outside", "level": 1, "enabled": true, "seconds": 240 },
+    { "id": "wrong_time", "name": "Known person outside open hours", "level": 1, "enabled": true },
+    { "id": "wrong_zone", "name": "Person in a zone they are not allowed in", "level": 1, "enabled": true },
+    { "id": "object", "name": "Object of concern seen", "level": 2, "enabled": true },
+    { "id": "object_unknown", "name": "Object of concern + unrecognized person in zone 1 or 2", "level": 3, "enabled": true }
+  ]
+}

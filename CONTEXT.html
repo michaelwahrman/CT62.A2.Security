@@ -1,0 +1,53 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CT62.A2 Security - context for the next session</title><style>:root{--bg:#fcfcfb;--ink:#0b0b0b;--muted:#52514e;--line:#dddcd6;--code:#f0efec;--a:#2a78d6;--pass:#0a7a3d;--fail:#b3261e}
+@media (prefers-color-scheme:dark){:root{--bg:#1a1a19;--ink:#f0efec;--muted:#c3c2b7;--line:#33332f;--code:#262624;--a:#6da7ec;--pass:#5fd08f;--fail:#ff8a80}}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;max-width:1100px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:24px}h2{font-size:19px;margin-top:28px;border-bottom:1px solid var(--line);padding-bottom:4px}h3{font-size:16px}
+a{color:var(--a)}code{background:var(--code);padding:1px 4px;border-radius:4px;font-size:.92em}pre{background:var(--code);padding:10px 12px;border-radius:6px;overflow:auto}
+pre code{background:none;padding:0}.tw{overflow-x:auto}table{border-collapse:collapse;font-size:13px;margin:10px 0}
+th,td{border-bottom:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}th{color:var(--muted)}
+.PASS{color:var(--pass);font-weight:700}.FAIL{color:var(--fail);font-weight:700}hr{border:0;border-top:1px solid var(--line)}</style></head><body>
+<!-- generated from CONTEXT.md by scripts/make_docs.py; edit the .md, not this file -->
+<h1>CT62.A2 Security - context for the next session</h1>
+<h2>A2 (2026-11-13)</h2>
+<p>User asked for a front page with their copyright ("© 2026 Michael Wahrman. All rights reserved.", same form as other CT projects) saying: untested prototype; hoped to lead to a synagogue security system but isn't one yet; needs cameras, image material and other test items that the user does not have and cannot afford; contributions welcome, but no demands or trouble. Built as a full-screen <code>#front</code> overlay inside <code>index.html</code> (so all A1 scripts, paths and the self-test stay unchanged), plus an About button to reopen it. Skipped when the URL has a query string. No contact address is on the page yet - ask the user whether to add one. Verified: front page shows, closes, app runs behind it; <code>?selftest=1</code> run in Claude's browser pane: pass = true. Note: <code>scripts/run_selftest.py</code> (headless Edge) returned an empty page in the A2 session for both A1 and A2, so docs/TEST_REPORT.md was not regenerated and is still the A1 report.</p>
+<p>Everything below is the A1 context and still applies.</p>
+<p>Read this file (and README.md) to pick up CT62 where A1 left off. Also read and follow <code>C:\Users\micha\Downloads\claude\claude_harness_7.md</code> (project rules), and pass it to any subtask.</p>
+<h2>The brief (from the user, 2026-11-13, condensed)</h2>
+<p>An open-ended security framework for synagogues that have been threatened. Elements will be added and removed as it evolves. Pieces asked for:</p>
+<ul><li>browser apps (WebGL / three.js), possibly with Python back-end tools</li><li>databases that are easy to back up: members (photos, contacts), duty officers (on duty / on call), and contacts plus</li></ul>
+<p>  actions for each kind of alert</p>
+<ul><li>building geometry, entrances and exits, nearby streets, and cameras with position, view direction and field of view</li><li>an operator tool to add and delete pictures: <strong>two per person (front and side)</strong>, with a history as people age.</li></ul>
+<p>  Categories: trusted members, people in roles of responsibility (rabbi, chief security officer), and possibly   threats or people no longer trusted (may be empty)</p>
+<ul><li>cameras: all-weather, low light, WiFi, roughly 1-2 fps JPEG stills at 2K or better (maybe encrypted), some</li></ul>
+<p>  wide-angle, overlapping fields of view</p>
+<ul><li>a central server with enough compute (GPUs if worthwhile)</li><li>zones: 0 outside / street, 1 entryway, 2 interior</li><li>operation: everyone entering is face-recognised. Recognised people are tracked but not of concern. Unrecognised</li></ul>
+<p>  people are checked against the threat list, wrong time, wrong place, or carrying objects of concern. Alerts range   from notifying the duty officer, to calling in outside security, to evacuation or shelter in place.</p>
+<ul><li>for now, fake this with visual displays</li></ul>
+<h2>Decisions made with the user for A1</h2>
+<ul><li><strong>Type:</strong> prototype now, strict later. A1 uses fake data and a simulated recogniser, with assumptions written down</li></ul>
+<p>  (README &gt; Assumptions). The strict science-project rules (checked research, QA, verification report) apply once   real cameras or real recognition are added.</p>
+<ul><li><strong>A1 scope:</strong> venue + cameras + simulation, plus the databases and editors.</li><li><strong>Layout:</strong> one <code>index.html</code> with tabs (Operations, Venue &amp; cameras, People, Duty &amp; alerts) sharing the same data.</li></ul>
+<h2>What A1 contains</h2>
+<p>Read README.md for the details. In short:</p>
+<ul><li>data lives in five JSON files under <code>data/</code>; <code>scripts/bundle_data.py</code> checks cross-references and writes</li></ul>
+<p>  <code>data/bundle.js</code> so the page works from file://</p>
+<ul><li>edits made in the browser go to localStorage (key <code>ct62a1.db</code>) and come back out through Data &gt; Export</li><li>camera model: <code>CT.camModel</code> / <code>CT.camSees</code> in <code>js/scene.js</code> (a three.js PerspectiveCamera; walls block line of</li></ul>
+<p>  sight in 2-D; face pixels and body pixels are worked out from distance, FOV and resolution)</p>
+<ul><li>simulation: <code>CT.makeSim</code> in <code>js/sim.js</code> (seeded RNG; scripted agents follow waypoints; per-camera frame clock; fake</li></ul>
+<p>  recogniser; tracks with perfect hand-off; 9 rules; levels 0-4; simulated notifications)</p>
+<ul><li>self-test: <code>js/selftest.js</code> + <code>scripts/run_selftest.py</code> (headless Edge/Chromium) -&gt; <code>docs/TEST_REPORT.md</code>.</li></ul>
+<p>  Last result: PASS (11/11 checks, 35/35 runs)</p>
+<ul><li>images: <code>scripts/capture_images.py</code> -&gt; <code>images/*.png</code></li><li>a <code>.claude/launch.json</code> (local static server on port 8762) is included for previewing in Claude's browser pane</li></ul>
+<h2>Findings worth carrying forward</h2>
+<ul><li>The sample camera layout (10 cameras, 2560x1440) only gets usable faces along the entry path. Seats, grounds and</li></ul>
+<p>  the classroom are blind spots for faces, and nothing has 3+ camera coverage. The real "overlapping view" goal needs   more cameras or narrower lenses at choke points.</p>
+<ul><li>With these thresholds, street cameras at 20 m cannot identify faces, so loitering detection has to rely on time,</li></ul>
+<p>  not identity.</p>
+<ul><li>People who were already inside when a scenario starts are marked <code>preTracked</code> (assumed identified on arrival).</li></ul>
+<h2>Ideas for A2 and later (not promised; ask the user)</h2>
+<ul><li>check the face-size and angle thresholds against published data for a chosen recognition model (strict mode)</li><li>a real recognition back end in Python (WSL), e.g. an open-source face-embedding model on a GPU server: enrol the</li></ul>
+<p>  front and side photos, match incoming JPEG frames, and send results to this console over WebSocket</p>
+<ul><li>lens distortion for wide cameras; brightness and IR effects on match quality</li><li>an escalation timer (level 1 not acknowledged in N seconds -&gt; level 2), shift schedules driving on-duty status, and</li></ul>
+<p>  an audit log export</p>
+<ul><li>a 2-D floor-plan editor for walls and zones instead of JSON</li><li>a camera layout optimiser that suggests where to put cameras to cover chosen spots with 2+ frontal views</li><li>research and document the privacy, consent and retention rules for biometric data in the target jurisdiction</li></ul>
+</body></html>

@@ -1,0 +1,19 @@
+{
+  "_note": "FICTIONAL names and 555-01xx numbers. status: on_duty | on_call | off. Nothing in A1 actually phones or messages anyone; notifications are simulated on screen.",
+  "officers": [
+    { "id": "O1", "name": "Daniel Katz", "personId": "P002", "role": "Chief Security Officer", "phone": "555-0102", "radio": "Ch 1", "status": "on_call", "shift": "Any time" },
+    { "id": "O2", "name": "Maya Shapiro", "personId": "", "role": "Duty officer (volunteer)", "phone": "555-0121", "radio": "Ch 1", "status": "on_duty", "shift": "Fri 17:00-21:30" },
+    { "id": "O3", "name": "Eli Kaplan", "personId": "", "role": "Duty officer (volunteer)", "phone": "555-0122", "radio": "Ch 1", "status": "on_duty", "shift": "Sat 08:00-14:00" },
+    { "id": "O4", "name": "Contract guard (front post)", "personId": "", "role": "Licensed guard", "phone": "555-0123", "radio": "Ch 2", "status": "on_duty", "shift": "Services" },
+    { "id": "O5", "name": "Tom Berger", "personId": "", "role": "Duty officer (volunteer)", "phone": "555-0124", "radio": "Ch 1", "status": "off", "shift": "Sun 08:30-13:00" }
+  ],
+  "contacts": [
+    { "id": "K_POLICE", "name": "Police / Fire / EMS (emergency)", "org": "Public", "phone": "911", "kind": "emergency" },
+    { "id": "K_POLICE_NE", "name": "Police non-emergency line", "org": "Local police", "phone": "555-0150", "kind": "police" },
+    { "id": "K_GUARDCO", "name": "Contract security company dispatch", "org": "Security contractor", "phone": "555-0151", "kind": "security" },
+    { "id": "K_NETWORK", "name": "Regional community security network", "org": "Community", "phone": "555-0152", "kind": "security" },
+    { "id": "K_RABBI", "name": "Rabbi Miriam Adler", "org": "Clergy", "phone": "555-0101", "kind": "leadership" },
+    { "id": "K_PRES", "name": "Benjamin Roth (president)", "org": "Board", "phone": "555-0106", "kind": "leadership" },
+    { "id": "K_ED", "name": "Ruth Levin (executive director)", "org": "Staff", "phone": "555-0103", "kind": "leadership" }
+  ]
+}

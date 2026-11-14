@@ -1,0 +1,754 @@
+{
+  "_note": "Simulation scripts. clock: day (0=Sun..6=Sat) and start time. Each agent: person (people id, or null = not enrolled), label, coat colour, start (s), speed (m/s), route = waypoint names or {wp, dwell (s), face (deg, 0=north 180=south)}, carry = null | 'long object' | 'large bag', exit = true to leave the scene at the end of the route. expect = what the self-test (index.html?selftest=1) checks: highest level reached and exactly which rules fire within runSec.",
+  "scenarios": [
+    {
+      "id": "arrivals",
+      "name": "Friday evening arrivals (+1 visitor)",
+      "clock": {
+        "day": 5,
+        "time": "18:20"
+      },
+      "description": "Ten members arrive for the Friday service; the rabbi is already at the bimah. One person who is not enrolled arrives at 0:40 and should raise a level-1, then level-2 alert unless the operator clears them.",
+      "agents": [
+        {
+          "person": "P001",
+          "coat": "#2b3a55",
+          "start": 0,
+          "speed": 1.1,
+          "route": [
+            "lobby_w",
+            "lobby",
+            "inner_door",
+            "aisle",
+            "aisle_mid",
+            {
+              "wp": "bimah",
+              "dwell": 9999,
+              "face": 0
+            }
+          ]
+        },
+        {
+          "person": "P005",
+          "coat": "#7a4b8c",
+          "start": 0,
+          "speed": 1.25,
+          "route": [
+            "sidewalk_w",
+            "gate_out",
+            "gate",
+            "forecourt",
+            "doors_out",
+            "doors_in",
+            "lobby",
+            "inner_door",
+            "aisle",
+            {
+              "wp": "seat_l1",
+              "dwell": 9999,
+              "face": 180
+            }
+          ]
+        },
+        {
+          "person": "P006",
+          "coat": "#334433",
+          "start": 6,
+          "speed": 1.35,
+          "route": [
+            "sidewalk_e",
+            "gate_out",
+            "gate",
+            "forecourt",
+            "doors_out",
+            "doors_in",
+            "lobby",
+            "inner_door",
+            "aisle",
+            {
+              "wp": "seat_r1",
+              "dwell": 9999,
+              "face": 180
+            }
+          ]
+        },
+        {
+          "person": "P007",
+          "coat": "#8c3b3b",
+          "start": 14,
+          "speed": 1.2,
+          "route": [
+            "sidewalk_w",
+            "gate_out",
+            "gate",
+            "forecourt",
+            "doors_out",
+            "doors_in",
+            "lobby",
+            "inner_door",
+            "aisle",
+            {
+              "wp": "seat_l2",
+              "dwell": 9999,
+              "face": 180
+            }
+          ]
+        },
+        {
+          "person": "P008",
+          "coat": "#40607a",
+          "start": 0,
+          "speed": 1.3,
+          "route": [
+            "sidewalk_e",
+            "gate_out",
+            "gate",
+            "forecourt",
+            "doors_out",
+            "doors_in",
+            {
+              "wp": "lobby_e",
+              "dwell": 9999,
+              "face": 0
+            }
+          ]
+        },
+        {
+          "person": "P009",
+          "coat": "#9a7a2c",
+          "start": 24,
+          "speed": 1.3,
+          "route": [
+            "sidewalk_e",
+            "gate_out",
+            "gate",
+            "forecourt",
+            "doors_out",
+            "doors_in",
+            "lobby",
+            "inner_door",
+            "aisle",
+            {
+              "wp": "seat_r2",
+              "dwell": 9999,
+              "face": 180
+            }
+          ]
+        },
+        {
+          "person": "P010",
+          "coat": "#555555",
+          "start": 30,
+          "speed": 1.4,
+          "route": [
+            "sidewalk_w",
+            "gate_out",
+            "gate",
+            "forecourt",
+            "doors_out",
+            "doors_in",
+            "lobby",
+            "inner_door",
+            "aisle",
+            {
+              "wp": "seat_l3",
+              "dwell": 9999,
+              "face": 180
+            }
+          ]
+        },
+        {
+          "person": "P011",
+          "coat": "#5b2d50",
+          "start": 38,
+          "speed": 1.1,
+          "route": [
+            "sidewalk_e",
+            "gate_out",
+            "gate",
+            "forecourt",
+            "doors_out",
+            "doors_in",
+            "lobby",
+            "inner_door",
+            "aisle",
+            {
+              "wp": "seat_r3",
+              "dwell": 9999,
+              "face": 180
+            }
+          ]
+        },
+        {
+          "person": null,
+          "label": "Visitor",
+          "coat": "#6b8e23",
+          "start": 40,
+          "speed": 1.2,
+          "route": [
+            "sidewalk_e",
+            "gate_out",
+            "gate",
+            "forecourt",
+            "doors_out",
+            "doors_in",
+            {
+              "wp": "lobby",
+              "dwell": 25,
+              "face": 0
+            },
+            "inner_door",
+            "aisle",
+            {
+              "wp": "aisle_mid",
+              "dwell": 9999,
+              "face": 180
+            }
+          ]
+        },
+        {
+          "person": "P012",
+          "coat": "#2c5f5d",
+          "start": 52,
+          "speed": 1.3,
+          "route": [
+            "sidewalk_w",
+            "gate_out",
+            "gate",
+            "forecourt",
+            "doors_out",
+            "doors_in",
+            "lobby",
+            "inner_door",
+            "aisle",
+            {
+              "wp": "seat_l1",
+              "dwell": 9999,
+              "face": 180
+            }
+          ]
+        },
+        {
+          "person": "P013",
+          "coat": "#7d5a44",
+          "start": 64,
+          "speed": 1.25,
+          "route": [
+            "sidewalk_w",
+            "gate_out",
+            "gate",
+            "forecourt",
+            "doors_out",
+            "doors_in",
+            "lobby",
+            "inner_door",
+            "aisle",
+            {
+              "wp": "seat_r1",
+              "dwell": 9999,
+              "face": 180
+            }
+          ]
+        },
+        {
+          "person": "P014",
+          "coat": "#39395f",
+          "start": 78,
+          "speed": 1.35,
+          "route": [
+            "sidewalk_e",
+            "gate_out",
+            "gate",
+            "forecourt",
+            "doors_out",
+            "doors_in",
+            "lobby",
+            "inner_door",
+            "aisle",
+            {
+              "wp": "seat_r2",
+              "dwell": 9999,
+              "face": 180
+            }
+          ]
+        }
+      ],
+      "expect": {
+        "runSec": 240,
+        "maxLevel": 2,
+        "rules": [
+          "unknown_zone1",
+          "unknown_zone2"
+        ],
+        "allEnrolledRecognized": true
+      }
+    },
+    {
+      "id": "threat",
+      "name": "Threat-list person at the gate",
+      "clock": {
+        "day": 6,
+        "time": "10:05"
+      },
+      "description": "During Shabbat morning service, a person on the threat list walks along Main Street, stops at the gate and looks at the building, then walks away. Expected: level-3 alert (lockdown).",
+      "agents": [
+        {
+          "person": "P001",
+          "coat": "#2b3a55",
+          "preTracked": true,
+          "start": 0,
+          "speed": 0.3,
+          "route": [
+            {
+              "wp": "bimah",
+              "dwell": 9999,
+              "face": 0
+            }
+          ]
+        },
+        {
+          "person": "P005",
+          "coat": "#7a4b8c",
+          "preTracked": true,
+          "start": 0,
+          "speed": 0.3,
+          "route": [
+            {
+              "wp": "seat_l1",
+              "dwell": 9999,
+              "face": 180
+            }
+          ]
+        },
+        {
+          "person": "P006",
+          "coat": "#334433",
+          "preTracked": true,
+          "start": 0,
+          "speed": 0.3,
+          "route": [
+            {
+              "wp": "seat_r1",
+              "dwell": 9999,
+              "face": 180
+            }
+          ]
+        },
+        {
+          "person": "P008",
+          "coat": "#40607a",
+          "preTracked": true,
+          "start": 0,
+          "speed": 0.3,
+          "route": [
+            {
+              "wp": "lobby_e",
+              "dwell": 9999,
+              "face": 0
+            }
+          ]
+        },
+        {
+          "person": "P099",
+          "coat": "#222222",
+          "start": 0,
+          "speed": 1.2,
+          "route": [
+            "sidewalk_e",
+            {
+              "wp": "gate_out",
+              "dwell": 25,
+              "face": 180
+            },
+            "sidewalk_w"
+          ],
+          "exit": true
+        },
+        {
+          "person": "P013",
+          "coat": "#7d5a44",
+          "start": 20,
+          "speed": 1.25,
+          "route": [
+            "sidewalk_w",
+            "gate_out",
+            "gate",
+            "forecourt",
+            "doors_out",
+            "doors_in",
+            "lobby",
+            "inner_door",
+            "aisle",
+            {
+              "wp": "seat_r2",
+              "dwell": 9999,
+              "face": 180
+            }
+          ]
+        }
+      ],
+      "expect": {
+        "runSec": 240,
+        "maxLevel": 3,
+        "rules": [
+          "threat_match"
+        ]
+      }
+    },
+    {
+      "id": "afterhours",
+      "name": "Member at the doors at 2:40 am",
+      "clock": {
+        "day": 2,
+        "time": "02:40"
+      },
+      "description": "A recognised member comes to the main doors in the middle of the night, waits, and leaves. Expected: level-1 'wrong time' alert.",
+      "agents": [
+        {
+          "person": "P010",
+          "coat": "#555555",
+          "start": 0,
+          "speed": 1.3,
+          "route": [
+            "sidewalk_w",
+            "gate_out",
+            "gate",
+            "forecourt",
+            {
+              "wp": "doors_out",
+              "dwell": 20,
+              "face": 180
+            },
+            "forecourt",
+            "gate",
+            "gate_out",
+            "sidewalk_w"
+          ],
+          "exit": true
+        }
+      ],
+      "expect": {
+        "runSec": 240,
+        "maxLevel": 1,
+        "rules": [
+          "wrong_time"
+        ]
+      }
+    },
+    {
+      "id": "object",
+      "name": "Unknown person carrying a long object",
+      "clock": {
+        "day": 6,
+        "time": "10:30"
+      },
+      "description": "A person who is not enrolled walks in carrying a long object. Expected: level-1 alert in zone 1, then object (level 2), then object + unrecognised person (level 3).",
+      "agents": [
+        {
+          "person": "P001",
+          "coat": "#2b3a55",
+          "preTracked": true,
+          "start": 0,
+          "speed": 0.3,
+          "route": [
+            {
+              "wp": "bimah",
+              "dwell": 9999,
+              "face": 0
+            }
+          ]
+        },
+        {
+          "person": "P009",
+          "coat": "#9a7a2c",
+          "preTracked": true,
+          "start": 0,
+          "speed": 0.3,
+          "route": [
+            {
+              "wp": "seat_r2",
+              "dwell": 9999,
+              "face": 180
+            }
+          ]
+        },
+        {
+          "person": "P011",
+          "coat": "#5b2d50",
+          "preTracked": true,
+          "start": 0,
+          "speed": 0.3,
+          "route": [
+            {
+              "wp": "seat_l2",
+              "dwell": 9999,
+              "face": 180
+            }
+          ]
+        },
+        {
+          "person": "P008",
+          "coat": "#40607a",
+          "preTracked": true,
+          "start": 0,
+          "speed": 0.3,
+          "route": [
+            {
+              "wp": "lobby_e",
+              "dwell": 9999,
+              "face": 0
+            }
+          ]
+        },
+        {
+          "person": null,
+          "label": "Unknown",
+          "coat": "#4a4a3a",
+          "start": 0,
+          "speed": 1.3,
+          "carry": "long object",
+          "route": [
+            "sidewalk_e",
+            "gate_out",
+            "gate",
+            "forecourt",
+            "doors_out",
+            "doors_in",
+            {
+              "wp": "lobby",
+              "dwell": 9999,
+              "face": 180
+            }
+          ]
+        }
+      ],
+      "expect": {
+        "runSec": 240,
+        "maxLevel": 3,
+        "rules": [
+          "object",
+          "object_unknown",
+          "unknown_zone1"
+        ]
+      }
+    },
+    {
+      "id": "office",
+      "name": "Member walks into the staff office",
+      "clock": {
+        "day": 6,
+        "time": "11:00"
+      },
+      "description": "A recognised member leaves the sanctuary and goes into the staff-only office. Expected: level-1 'wrong zone' alert.",
+      "agents": [
+        {
+          "person": "P001",
+          "coat": "#2b3a55",
+          "preTracked": true,
+          "start": 0,
+          "speed": 0.3,
+          "route": [
+            {
+              "wp": "bimah",
+              "dwell": 9999,
+              "face": 0
+            }
+          ]
+        },
+        {
+          "person": "P007",
+          "coat": "#8c3b3b",
+          "preTracked": true,
+          "start": 0,
+          "speed": 1.1,
+          "route": [
+            {
+              "wp": "seat_l1",
+              "dwell": 6,
+              "face": 180
+            },
+            "aisle",
+            "inner_door",
+            "lobby",
+            "office_door",
+            {
+              "wp": "office",
+              "dwell": 9999,
+              "face": 90
+            }
+          ]
+        },
+        {
+          "person": "P003",
+          "coat": "#3f5d3f",
+          "preTracked": true,
+          "start": 0,
+          "speed": 0.3,
+          "route": [
+            {
+              "wp": "seat_r3",
+              "dwell": 9999,
+              "face": 180
+            }
+          ]
+        }
+      ],
+      "expect": {
+        "runSec": 240,
+        "maxLevel": 1,
+        "rules": [
+          "wrong_zone"
+        ]
+      }
+    },
+    {
+      "id": "loiter",
+      "name": "Loiterer across the street",
+      "clock": {
+        "day": 3,
+        "time": "15:10"
+      },
+      "description": "Someone stands on the far sidewalk opposite the gate for five minutes. Too far away for face matching. Expected: level-1 loitering alert after 4 minutes (try speed x10).",
+      "agents": [
+        {
+          "person": null,
+          "label": "Pedestrian",
+          "coat": "#5a6b7c",
+          "start": 0,
+          "speed": 1.4,
+          "route": [
+            "sidewalk_e",
+            "sidewalk_w"
+          ],
+          "exit": true
+        },
+        {
+          "person": null,
+          "label": "Loiterer",
+          "coat": "#2f2f3f",
+          "start": 5,
+          "speed": 1.2,
+          "route": [
+            "far_sidewalk_w",
+            {
+              "wp": "across_gate",
+              "dwell": 300,
+              "face": 180
+            },
+            "far_sidewalk_e"
+          ],
+          "exit": true
+        },
+        {
+          "person": null,
+          "label": "Pedestrian",
+          "coat": "#7c6b5a",
+          "start": 90,
+          "speed": 1.3,
+          "route": [
+            "sidewalk_w",
+            "sidewalk_e"
+          ],
+          "exit": true
+        }
+      ],
+      "expect": {
+        "runSec": 420,
+        "maxLevel": 1,
+        "rules": [
+          "loiter_zone0"
+        ]
+      }
+    },
+    {
+      "id": "nottrusted",
+      "name": "'No longer trusted' person arrives",
+      "clock": {
+        "day": 5,
+        "time": "18:40"
+      },
+      "description": "A person on the 'no longer trusted' list arrives with members. Expected: level-2 alert as soon as the face is matched.",
+      "agents": [
+        {
+          "person": "P001",
+          "coat": "#2b3a55",
+          "preTracked": true,
+          "start": 0,
+          "speed": 0.3,
+          "route": [
+            {
+              "wp": "bimah",
+              "dwell": 9999,
+              "face": 0
+            }
+          ]
+        },
+        {
+          "person": "P008",
+          "coat": "#40607a",
+          "preTracked": true,
+          "start": 0,
+          "speed": 0.3,
+          "route": [
+            {
+              "wp": "lobby_e",
+              "dwell": 9999,
+              "face": 0
+            }
+          ]
+        },
+        {
+          "person": "P012",
+          "coat": "#2c5f5d",
+          "start": 0,
+          "speed": 1.3,
+          "route": [
+            "sidewalk_w",
+            "gate_out",
+            "gate",
+            "forecourt",
+            "doors_out",
+            "doors_in",
+            "lobby",
+            "inner_door",
+            "aisle",
+            {
+              "wp": "seat_l1",
+              "dwell": 9999,
+              "face": 180
+            }
+          ]
+        },
+        {
+          "person": "P090",
+          "coat": "#6e3b1e",
+          "start": 4,
+          "speed": 1.25,
+          "route": [
+            "sidewalk_w",
+            "gate_out",
+            "gate",
+            "forecourt",
+            "doors_out",
+            "doors_in",
+            "lobby",
+            "inner_door",
+            "aisle",
+            {
+              "wp": "seat_r3",
+              "dwell": 9999,
+              "face": 180
+            }
+          ]
+        }
+      ],
+      "expect": {
+        "runSec": 240,
+        "maxLevel": 2,
+        "rules": [
+          "not_trusted_match"
+        ]
+      }
+    }
+  ]
+}

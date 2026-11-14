@@ -1,0 +1,98 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CT62.A2 Security</title><style>:root{--bg:#fcfcfb;--ink:#0b0b0b;--muted:#52514e;--line:#dddcd6;--code:#f0efec;--a:#2a78d6;--pass:#0a7a3d;--fail:#b3261e}
+@media (prefers-color-scheme:dark){:root{--bg:#1a1a19;--ink:#f0efec;--muted:#c3c2b7;--line:#33332f;--code:#262624;--a:#6da7ec;--pass:#5fd08f;--fail:#ff8a80}}
+body{background:var(--bg);color:var(--ink);font:15px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif;max-width:1100px;margin:0 auto;padding:24px 16px 60px}
+h1{font-size:24px}h2{font-size:19px;margin-top:28px;border-bottom:1px solid var(--line);padding-bottom:4px}h3{font-size:16px}
+a{color:var(--a)}code{background:var(--code);padding:1px 4px;border-radius:4px;font-size:.92em}pre{background:var(--code);padding:10px 12px;border-radius:6px;overflow:auto}
+pre code{background:none;padding:0}.tw{overflow-x:auto}table{border-collapse:collapse;font-size:13px;margin:10px 0}
+th,td{border-bottom:1px solid var(--line);padding:5px 8px;text-align:left;vertical-align:top}th{color:var(--muted)}
+.PASS{color:var(--pass);font-weight:700}.FAIL{color:var(--fail);font-weight:700}hr{border:0;border-top:1px solid var(--line)}</style></head><body>
+<!-- generated from README.md by scripts/make_docs.py; edit the .md, not this file -->
+<h1>CT62.A2 Security</h1>
+<p><strong>A2 (2026-11-13):</strong> adds a front page. Opening <code>index.html</code> now shows the copyright and a notice that this is an untested prototype, not yet a security system, and that cameras and test images are needed and welcome as contributions. "Enter the prototype" closes it; the new <strong>About</strong> button in the top bar shows it again. The page is skipped when <code>index.html</code> is opened with a query string (self-test, image capture). Nothing else changed from A1 (same data, same localStorage key <code>ct62a1.db</code>, so local edits carry over).</p>
+<p>© 2026 Michael Wahrman. All rights reserved.</p>
+<hr>
+<p>An experimental security console for a synagogue: venue and camera layout, a people database with photos, duty officers and alert procedures, and a simulation of people arriving. Cameras take still frames at 1-2 fps, a stand-in "recogniser" matches faces, and rules raise alert levels.</p>
+<p><strong>Status: prototype (art-style rules, assumptions written down, strict rules to come later).</strong> Everything here is fictional: the building, the people, the phone numbers and the face pictures. No real face recognition is done and nothing is sent to anyone. Notifications appear on screen marked <em>SIMULATED</em>.</p>
+<p>!<a href="images/ops_arrivals.png">Operations view, Friday arrivals with one unrecognised visitor</a></p>
+<h2>Running it</h2>
+<p>Open <code>index.html</code> in a browser (Chrome, Edge or Firefox). It works straight from disk. three.js r186 is bundled in <code>lib/</code>, so nothing is downloaded.</p>
+<p>To edit the JSON files and see the changes without rebuilding, serve the folder instead:</p>
+<pre><code>python3 -m http.server 8762</code></pre>
+<p>and open http://localhost:8762/. When the page is opened from disk it reads <code>data/bundle.js</code>. Rebuild that file after editing <code>data/*.json</code>:</p>
+<pre><code>python3 scripts/bundle_data.py</code></pre>
+<p>The information panels are <strong>off when the page opens</strong> (so they don't cover the view on a phone). Press <strong>Panels</strong> or the <strong>P</strong> key to show them.</p>
+<h2>The four tabs</h2>
+<div class="tw"><table>
+<tr><th>Tab</th><th>What it does</th></tr>
+<tr><td>Operations</td><td>Runs a scenario in 3D. Tiles for each camera show the frame it last took, with detection boxes (<code>MATCH</code>, quality <code>q0.82</code>, <code>back</code>, <code>small</code>). Also tracks with identity and zone, alerts (Ack / Resolve / Declare 1-4 / All clear), simulated notifications, and an event log. Click a person or track for details, <strong>Clear as visitor</strong> after a greeter has checked them, or <strong>Follow</strong>. Double-click a camera tile to look through that camera.</td></tr>
+<tr><td>Venue &amp; cameras</td><td>Camera list and editor (position, height, yaw, pitch, field of view, range, fps, resolution, zone). <em>Move</em> / <em>Aim</em> place a camera by clicking the ground. Shows FOV cones and a <strong>face coverage map</strong> (how many cameras get a usable face at each 1 m spot). The walls, zones, doors, streets and waypoints can be edited as JSON.</td></tr>
+<tr><td>People</td><td>The recognition database: members, staff/clergy, security, <em>no longer trusted</em>, and <em>threat list</em> (which may be empty). Each person has front and side photos with a dated history, contact details, allowed zones, and access (open hours only, or any time). You can upload real photos (they are shrunk to 480 px).</td></tr>
+<tr><td>Duty &amp; alerts</td><td>Duty officers (on duty / on call / off), outside contacts, alert levels 0-4 with who is notified and the action list, the rules and which level each one raises, and the open hours.</td></tr></table></div>
+<p><strong>Data</strong> (top right) exports any of the five JSON files, imports them, or resets to the shipped data. Edits are kept in this browser until you export them.</p>
+<h2>Zones and alert levels</h2>
+<p>Zones: <strong>0 outside</strong> (streets, and the grounds inside the fence), <strong>1 entry</strong> (forecourt from the gate to the doors, and the lobby), <strong>2 interior</strong> (sanctuary, classroom, and the office, which is marked <em>staff only</em>).</p>
+<div class="tw"><table>
+<tr><th>Level</th><th>Name</th><th>Notifies (simulated)</th></tr>
+<tr><td>0</td><td>Log</td><td>nobody</td></tr>
+<tr><td>1</td><td>Notify duty officer</td><td>on-duty officers</td></tr>
+<tr><td>2</td><td>Call in security</td><td>+ on-call officers, security contractor</td></tr>
+<tr><td>3</td><td>Lockdown / shelter in place</td><td>+ 911, community security network, rabbi, executive director</td></tr>
+<tr><td>4</td><td>Evacuate</td><td>+ board president (only declared by the operator)</td></tr></table></div>
+<p>Rules: threat-list match (3), <em>no longer trusted</em> match (2), unrecognised person in zone 1 for more than 8 s (1), unrecognised and uncleared person inside (2), unrecognised person loitering outside for 240 s (1), known person outside open hours (1), person in a zone they aren't allowed in (1), object of concern (2), and object plus an unrecognised person in zone 1/2 (3). All of these are editable in <code>alerts.json</code> or on the Duty tab. They are <strong>placeholder procedures, not reviewed security advice.</strong></p>
+<h2>Scenarios</h2>
+<div class="tw"><table>
+<tr><th>Scenario</th><th>What should happen</th></tr>
+<tr><td>Friday evening arrivals (+1 visitor)</td><td>All 10 members and the rabbi are recognised; the visitor raises level 1, then level 2 (try <em>Clear as visitor</em>)</td></tr>
+<tr><td>Threat-list person at the gate</td><td>Matched by the gate camera while they stop and look -&gt; level 3</td></tr>
+<tr><td>Member at the doors at 2:40 am</td><td>Night (IR-style frames) -&gt; level 1 <em>outside open hours</em></td></tr>
+<tr><td>Unknown person carrying a long object</td><td>Object level 2 -&gt; object + unknown level 3</td></tr>
+<tr><td>Member walks into the staff office</td><td>Level 1 <em>wrong zone</em></td></tr>
+<tr><td>Loiterer across the street</td><td>Too far away for face matching -&gt; level 1 loitering after 4 min (use x10)</td></tr>
+<tr><td>'No longer trusted' person arrives</td><td>Level 2 on match</td></tr></table></div>
+<p>!<a href="images/ops_threat_gate.png">Threat-list person stopped at the gate</a></p>
+<h2>How the simulated recogniser works</h2>
+<p>For each camera frame, each person is tested against the camera's view pyramid. Walls block the view (2-D line of sight; walls are assumed taller than the cameras). The estimate is then:</p>
+<ul><li><strong>face width in pixels</strong> = 0.16 m / (2 x distance x tan(HFOV/2)) x horizontal resolution</li><li><strong>pixel quality</strong> = 0 below 24 px, rising to 1 at 64 px</li><li><strong>angle quality</strong> = 1 frontal (&lt; 30 deg), 0.85 three-quarter (&lt; 60), 0.6 profile (&lt; 100; we hold side photos), 0 from behind</li><li>an enrolled person is matched with probability 0.97 x pixel quality x angle quality. A person who is not enrolled</li></ul>
+<p>  is never matched (no false matches in A1).</p>
+<ul><li>a carried object is noticed with probability 0.5 per frame once the person is 160 px or taller in the frame</li></ul>
+<p>One worked number: a 90 deg camera at 2560 px gives about 20 px of face at 10 m. That's too small to match, which is why the street cameras catch passers-by but don't identify them.</p>
+<p>!<a href="images/venue_coverage.png">Face coverage map, red = no usable face view on the property</a></p>
+<p><strong>Finding from the sample layout:</strong> with 10 cameras at 2560x1440, usable face coverage exists only along the entry path (gate, forecourt, doors, lobby, sanctuary doors). No spot on the property is covered by 3 or more cameras, and the seating area, the grounds and the classroom are blind spots for faces. Someone facing the ark from the bimah is never identified, so the arrivals scenario has the rabbi walk in through the lobby. The coverage map is meant for exactly this kind of planning.</p>
+<h2>Assumptions (UNVERIFIED, to be checked before any real use)</h2>
+<ol><li><strong>Face-size thresholds</strong> (24 px usable, 64 px reliable, 0.16 m face width) are planning guesses. Real thresholds</li></ol>
+<p>   depend on the recognition model, lighting, motion blur, compression and lens distortion. Check them against the    chosen camera and model.</p>
+<ol><li><strong>Wide-angle lenses</strong> are modelled as plain perspective cameras. Barrel distortion and the drop in resolution at</li></ol>
+<p>   the edges are ignored.</p>
+<ol><li><strong>Tracking hand-off is perfect.</strong> The same person keeps one track across all cameras, and the zone comes from their</li></ol>
+<p>   true position. In a real system, re-identification across cameras is a hard problem in its own right.</p>
+<ol><li><strong>No false matches, and no look-alikes.</strong> Real systems have false-match and false-non-match rates that must be</li></ol>
+<p>   measured.</p>
+<ol><li><strong>Object detection</strong> is a coin flip once the person is large enough in the frame. It is not a model of any real</li></ol>
+<p>   detector.</p>
+<ol><li><strong>Low light:</strong> night frames are shown greyscale ("IR"), but recognition quality is not reduced at night.</li><li><strong>Frame timing:</strong> each camera takes frames at its own fps with a fixed phase. There is no network delay and no</li></ol>
+<p>   lost frames.</p>
+<ol><li><strong>Procedures, notification lists and level names</strong> are placeholders. They are not reviewed advice from police,</li></ol>
+<p>   security professionals or community security organisations.</p>
+<ol><li><strong>Privacy and law:</strong> holding photos of members, and especially of people judged to be threats, raises</li></ol>
+<p>   biometric-privacy, consent and data-retention questions that differ by country and state. They have not been    researched here and must be before real deployment.</p>
+<h2>Files</h2>
+<pre><code>index.html               the app (four tabs)
+js/util.js store.js      helpers; the five JSON &quot;databases&quot; (localStorage edits + export/import)
+js/faces.js              placeholder portrait drawings (front + profile)
+js/scene.js              three.js venue, camera model + visibility test, coverage map, figures
+js/sim.js                scenario runner, fake recogniser, tracks, rules, alert levels, notifications
+js/ui_*.js main.js       the tabs
+js/selftest.js           in-page tests (index.html?selftest=1)
+data/*.json              venue, people, duty, alerts, scenarios  (+ bundle.js generated from them)
+scripts/bundle_data.py   cross-reference check + build data/bundle.js
+scripts/run_selftest.py  headless self-test -&gt; docs/TEST_REPORT.md
+scripts/capture_images.py headless screenshots -&gt; images/
+scripts/make_docs.py     .md -&gt; .html shadows
+lib/three.r186.min.js    three.js (MIT)</code></pre>
+<p>URL options (handy for links and screenshots): <code>?tab=ops|venue|people|duty&amp;scenario=threat&amp;t=40&amp;play=0&amp;panels=1&amp;speed=10&amp;cov=1&amp;fov=sel&amp;cam=C03&amp;look=C05&amp;sel=T09&amp;fresh=1</code></p>
+<h2>Tests</h2>
+<pre><code>python3 scripts/run_selftest.py</code></pre>
+<p>This runs the data check, 11 camera-model checks, and the 7 scenarios with 5 random seeds each (35 runs). See <a href="docs/TEST_REPORT.html">docs/TEST_REPORT.md</a>. Last result: <strong class="PASS">PASS</strong> (11/11 checks, 35/35 runs). These tests show the program does what it was written to do. They do not show that real cameras or recognition would behave this way.</p>
+<h2>More pictures</h2>
+<p>!<a href="images/ops_object_lobby_cam.png">Lobby camera view during the long-object scenario</a> !<a href="images/ops_afterhours_night.png">Member at 2:40 am, night frames</a> !<a href="images/venue_fov_cones.png">FOV cones</a> !<a href="images/people.png">People database</a> !<a href="images/duty_alerts.png">Duty and alerts</a></p>
+</body></html>
